@@ -1,0 +1,5 @@
+name: dind-multiarch
+description: A small image with busybox and qemu-user-static
+runs:
+  using: 'docker'
+  image: '../../../dind-arch.Dockerfile'
