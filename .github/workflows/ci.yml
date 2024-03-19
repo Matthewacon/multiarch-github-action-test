@@ -4,5 +4,5 @@ jobs:
   test_job:
     rnus-on: ubuntu-latest
     steps:
-      - users: ././github/actions/dind-multiarch
+      - uses: ././github/actions/dind-multiarch
       - run: env
