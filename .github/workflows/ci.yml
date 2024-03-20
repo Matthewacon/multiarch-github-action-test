@@ -24,13 +24,17 @@ jobs:
     services:
       dockerd:
         image: docker-multiarch:${{ github.run_number }}
-        env:
-          args: dockerd -D --init unix:///var/run/docker2/docker.sock --exec-root /var/run/docker2 --cri-containerd
+        #env:
+        #  args: |
+        #    /usr/bin/busybox sh -c "\
+        #    wget TODO.tar \
+        #    && dockerd -D --init unix:///var/run/docker2/docker.sock --exec-root /var/run/docker2 --cri-containerd \
+        #    "
         volumes:
           - /var/run/docker2:/var/run/docker2
     steps:
       - name: Do nothing
-        run: sleep 100
+        run: find /var/run/docker2 && sleep 100
 
 
   #build_and_push_to_local_registry:
