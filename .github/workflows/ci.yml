@@ -1,25 +1,16 @@
 name: CI
 on: [push]
 jobs:
-  build_and_push_to_local_registry:
+  pull_from_local_registry_and_run:
     runs-on: ubuntu-latest
-    services:
-      docker_registry:
-        image: registry:2
-        ports:
-        - 5000:5000
     steps:
-      - uses: actions/checkout@v4
-      - name: Build image
+      - name: Query registry
+        on:
+          workflow_run: ["CI"]
+          types:
+            - in_progress
         run: |
-          cd $GITHUB_WORKSPACE
-          docker build . -f .github/actions/dind-multiarch/dind-arch.Dockerfile -t archlinux:builder
-          docker tag archlinux:builder localhost:5000/archlinux:builder
-          docker push localhost:5000/archlinux:builder
-          docker run --privileged -v /var/run/docker.sock:/var/run/docker.sock archlinux:builder
-
-        #❯ docker build . -f .github/actions/dind-multiarch/dind-arch.Dockerfile -t archlinux:builder
-        #❯ docker run --privileged -v /run/docker.sock:/var/run/docker.sock -v "$PWD/out:/out" -e TERM=xterm -it archlinux:builder
+          docker run -v /var/run/docker.sock:/var/run/docker.sock localhost:5000/archlinux:builder
 
   #testing:
   #another_test_job:
