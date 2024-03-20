@@ -1,6 +1,13 @@
 name: CI
 on: [push]
 jobs:
+  docker_registry:
+    runs-on: ubuntu-latest
+    services:
+      image: registry:2
+      ports:
+        - 5000:5000
+
   #testing:
   #another_test_job:
   #  runs-on: ubuntu-latest
