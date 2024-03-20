@@ -5,7 +5,7 @@ on: ["push"]
 #  types:
 #    - in_progress
 jobs:
-  'Build multiarch docker image':
+  build-multiarch-docker-image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -13,7 +13,7 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           docker build . -f .github/actions/dind-multiarch/dind-arch.Dockerfile -t docker-multiarch:${{ github.run_number }}
-  'Run example':
+  run-example:
     runs-on: ubuntu-latest
     services:
       dockerd:
