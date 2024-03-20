@@ -27,4 +27,4 @@ RUN /usr/bin/bash -c "cp /etc/pacman.conf /image/etc && cp -R /etc/pacman.d/ /im
 FROM scratch
 
 COPY --from=builder /image /
-ENTRYPOINT ["/usr/bin/busybox", "sh"]
+ENTRYPOINT ["/usr/bin/busybox", "sh", "docker", "image", "ps", "-a"]
