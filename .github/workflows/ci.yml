@@ -1,12 +1,26 @@
 name: CI
 on: [push]
 jobs:
-  docker_registry:
+  build_and_push_to_local_registry:
     runs-on: ubuntu-latest
     services:
       image: registry:2
       ports:
         - 5000:5000
+    steps:
+      build_image:
+        uses: actions/checkout@v1
+        run: |
+          cd $GITHUB_WORKSPACE
+          docker build . -f .github/actions/dind-multiarch/dind-arch.Dockerfile -t archlinux:builder
+          docker tag archlinux:builder localhost:5000/archlinux:builder
+          docker push localhost:5000/archlinux:builder
+      use_image:
+        run: |
+          docker run --privileged -v /var/run/docker.sock:/var/run/docker.sock archlinux:builder
+
+        #❯ docker build . -f .github/actions/dind-multiarch/dind-arch.Dockerfile -t archlinux:builder
+        #❯ docker run --privileged -v /run/docker.sock:/var/run/docker.sock -v "$PWD/out:/out" -e TERM=xterm -it archlinux:builder
 
   #testing:
   #another_test_job:
@@ -21,19 +35,19 @@ jobs:
   #          uname -r
   #          echo $SHELL
 
-  #testing: build use action
-  test_job:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: ./.github/actions/dind-multiarch
-      - name: Print env
-        run: |
-          env
-          uname -a
-          uname -r
-          echo $SHELL
-          find /usr/bin
+  ##testing: build use action
+  #test_job:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v1
+  #    - uses: ./.github/actions/dind-multiarch
+  #    - name: Print env
+  #      run: |
+  #        env
+  #        uname -a
+  #        uname -r
+  #        echo $SHELL
+  #        find /usr/bin
 
   #testing: build image with buildx
   #build_image:
