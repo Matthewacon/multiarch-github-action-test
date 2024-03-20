@@ -6,11 +6,12 @@ jobs:
     container: ../actions/dind-multiarch/dind-arch.Dockerfile
     services:
       dind_service:
-        run: |
-          env
-          uname -a
-          uname -r
-          echo $SHELL
+        - name: Example step
+          run: |
+            env
+            uname -a
+            uname -r
+            echo $SHELL
   test_job:
     runs-on: ubuntu-latest
     steps:
