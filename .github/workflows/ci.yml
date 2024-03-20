@@ -8,8 +8,8 @@ jobs:
       ports:
         - 5000:5000
     steps:
+      - uses: actions/checkout@v1
       - name: Build image
-        uses: actions/checkout@v1
         run: |
           cd $GITHUB_WORKSPACE
           docker build . -f .github/actions/dind-multiarch/dind-arch.Dockerfile -t archlinux:builder
