@@ -21,7 +21,8 @@ RUN /usr/bin/bash -c '\
 #install all pacakges for final image
 RUN /usr/bin/bash -c "pacman -r /image -Sy --noconfirm qemu-user-static qemu-user-static-binfmt busybox"
 RUN /usr/bin/bash -c "pacman -r /image -Sy --noconfirm pacman"
-RUN /usr/bin/bash -c "cp /etc/pacman.conf /image/etc && cp -R /etc/pacman.d/ /image/etc/"
+
+#RUN /usr/bin/bash -c "cp /etc/pacman.conf /image/etc && cp -R /etc/pacman.d/ /image/etc/"
 
 #copy reuslts into final image and set up entrypoint
 FROM scratch
