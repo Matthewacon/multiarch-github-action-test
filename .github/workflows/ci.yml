@@ -1,6 +1,7 @@
 name: CI
 on: [push]
 jobs:
+  #testing:
   #another_test_job:
   #  runs-on: ubuntu-latest
   #  container: ../actions/dind-multiarch/dind-arch.Dockerfile
@@ -12,6 +13,8 @@ jobs:
   #          uname -a
   #          uname -r
   #          echo $SHELL
+  
+  #testing: build use action
   test_job:
     runs-on: ubuntu-latest
     steps:
@@ -23,18 +26,20 @@ jobs:
           uname -a
           uname -r
           echo $SHELL
-  build_image:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up docker buildx context
-        uses: docker/setup-buildx-action@v3
-      - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          push: false
-          file: ./.github/actions/dind-multiarch/dind-arch.Dockerfile
-          tags: dind-arch:${{ github.run_number }}
-          outputs: type=docker,dest=./dind-arch.tar
-          cache-from: type=registry,ref=dind-arch:${{ github.run_number }}
-          cache-to: type=registry,ref=dind-arch:${{ github.run_number }}
+
+  #testing: build image with buildx
+  #build_image:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Set up docker buildx context
+  #      uses: docker/setup-buildx-action@v3
+  #    - name: Build and push
+  #      uses: docker/build-push-action@v3
+  #      with:
+  #        push: false
+  #        file: ./.github/actions/dind-multiarch/dind-arch.Dockerfile
+  #        tags: dind-arch:${{ github.run_number }}
+  #        outputs: type=docker,dest=./dind-arch.tar
+  #        cache-from: type=registry,ref=dind-arch:${{ github.run_number }}
+  #        cache-to: type=registry,ref=dind-arch:${{ github.run_number }}
 
