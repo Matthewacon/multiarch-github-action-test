@@ -1,14 +1,13 @@
 name: CI 
-on: [push]
+on:
+  workflow_run: ["CI"]
+  types:
+    - in_progress
 jobs:
   pull_from_local_registry_and_run:
     runs-on: ubuntu-latest
     steps:
       - name: Query registry
-        on:
-          workflow_run: ["CI"]
-          types:
-            - in_progress
         run: |
           docker run -v /var/run/docker.sock:/var/run/docker.sock localhost:5000/archlinux:builder
 
