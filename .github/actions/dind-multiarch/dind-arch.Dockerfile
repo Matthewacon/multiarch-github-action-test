@@ -28,5 +28,6 @@ RUN /usr/bin/bash -c "pacman -r /image -Sy --noconfirm pacman"
 FROM scratch
 
 COPY --from=builder /image /
+ENTRYPOINT ["/usr/bin/busybox", "sh", "-c", "docker image ls"]
 #ENTRYPOINT ["/usr/bin/busybox", "sh", "/usr/bin/docker", "image", "ps", "-a"]
-ENTRYPOINT ["/usr/bin/docker", "image", "ps", "-a"]
+#ENTRYPOINT ["/usr/bin/docker", "image", "ls"]
