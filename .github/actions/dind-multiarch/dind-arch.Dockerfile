@@ -1,13 +1,13 @@
 FROM archlinux:latest AS builder
 
-#get docker cli
-RUN /usr/bin/bash -c '\
- mkdir -p /image/usr/bin \
- && pacman -Sy --noconfirm wget \
- && wget https://download.docker.com/linux/static/stable/x86_64/docker-25.0.4.tgz \
- && tar -zxf docker-25.0.4.tgz --strip=1 docker/docker -O > /usr/bin/docker && chmod +x /usr/bin/docker \
- && cp /usr/bin/docker /image/usr/bin/ \
-'
+#install base deps
+RUN mkdir -p /image/usr/bin && pacman -Sy --noconfirm wget
+
+#download docker
+RUN wget https://download.docker.com/linux/static/stable/x86_64/docker-25.0.4.tgz
+
+#TODO: extract docker
+RUN tar -vzxf docker-25.0.4.tgz --strip=1 -C /image/usr/bin
 
 #create bootstrap directories from pacman
 #NOTE: taken from: https://github.com/lopsided98/archlinux-docker/blob/master/pacstrap-docker
@@ -19,15 +19,18 @@ RUN /usr/bin/bash -c '\
 '
 
 #install all pacakges for final image
-RUN /usr/bin/bash -c "pacman -r /image -Sy --noconfirm qemu-user-static qemu-user-static-binfmt busybox"
-RUN /usr/bin/bash -c "pacman -r /image -Sy --noconfirm pacman"
+RUN /usr/bin/bash -c "pacman -r /image -Sy --noconfirm qemu-user-static qemu-user-static-binfmt busybox fuse-overlayfs iptables"
 
+#install pacman
+#RUN /usr/bin/bash -c "pacman -r /image -Sy --noconfirm pacman"
 #RUN /usr/bin/bash -c "cp /etc/pacman.conf /image/etc && cp -R /etc/pacman.d/ /image/etc/"
 
 #copy reuslts into final image and set up entrypoint
 FROM scratch
 
 COPY --from=builder /image /
-ENTRYPOINT ["/usr/bin/busybox", "sh", "-c", "docker image ls"]
+
+ENV args="echo Set the command string in the 'args' environment variable"
+ENTRYPOINT ["/usr/bin/busybox", "sh", "-c", "$args"]
 #ENTRYPOINT ["/usr/bin/busybox", "sh", "/usr/bin/docker", "image", "ps", "-a"]
 #ENTRYPOINT ["/usr/bin/docker", "image", "ls"]

@@ -1,16 +1,55 @@
-name: CI 
-on:
-  workflow_run: ["CI"]
-  types:
-    - in_progress
+name: CI
+on: ["push"]
+#on:
+#  workflow_run: ["CI"]
+#  types:
+#    - in_progress
 jobs:
-  pull_from_local_registry_and_run:
+  'Build multiarch docker image':
     runs-on: ubuntu-latest
     steps:
-      - name: Query registry
+      - uses: actions/checkout@v4
+      - name: Build base arch image
         run: |
-          docker run -v /var/run/docker.sock:/var/run/docker.sock localhost:5000/archlinux:builder
+          cd $GITHUB_WORKSPACE
+          docker build . -f .github/actions/dind-multiarch/dind-arch.Dockerfile -t docker-multiarch:${{ github.run_number }}
+  'Run example':
+    runs-on: ubuntu-latest
+    services:
+      dockerd:
+        image: docker-multiarch:${{ github.run_number }}
+        env:
+          args: dockerd -D --init unix:///var/run/docker2/docker.sock --exec-root /var/run/docker2 --cri-containerd
+        volumes:
+          - /var/run/docker2:/var/run/docker2
+    steps:
+      - name: Do nothing
+        run: sleep 100
 
+
+  #build_and_push_to_local_registry:
+  #  runs-on: ubuntu-latest
+  #  services:
+  #    docker_registry:
+  #      image: registry:2
+  #      ports:
+  #      - 5000:5000
+  #  steps:
+  #    - uses: actions/checkout@v4
+  #    - name: Build image
+  #      run: |
+  #        cd $GITHUB_WORKSPACE
+  #        docker build . -f .github/actions/dind-multiarch/dind-arch.Dockerfile -t archlinux:builder
+  #        docker tag archlinux:builder localhost:5000/archlinux:builder
+  #        docker push localhost:5000/archlinux:builder
+  #        docker run --privileged -v /var/run/docker.sock:/var/run/docker.sock archlinux:builder
+
+  #      #❯ docker build . -f .github/actions/dind-multiarch/dind-arch.Dockerfile -t archlinux:builder
+  #      #❯ docker run --privileged -v /run/docker.sock:/var/run/docker.sock -v "$PWD/out:/out" -e TERM=xterm -it archlinux:builder
+
+  #    - name:
+
+  #OLD:
   #testing:
   #another_test_job:
   #  runs-on: ubuntu-latest
