@@ -1,4 +1,4 @@
-name: Services 
+name: CI 
 on: [push]
 jobs:
   pull_from_local_registry_and_run:
