@@ -8,14 +8,14 @@ jobs:
       ports:
         - 5000:5000
     steps:
-      build_image:
+      - name: Build image
         uses: actions/checkout@v1
         run: |
           cd $GITHUB_WORKSPACE
           docker build . -f .github/actions/dind-multiarch/dind-arch.Dockerfile -t archlinux:builder
           docker tag archlinux:builder localhost:5000/archlinux:builder
           docker push localhost:5000/archlinux:builder
-      use_image:
+      - name: Use image
         run: |
           docker run --privileged -v /var/run/docker.sock:/var/run/docker.sock archlinux:builder
 
