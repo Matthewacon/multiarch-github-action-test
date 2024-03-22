@@ -23,6 +23,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
+          file: ./.github/actions/dind-multiarch/dind-arch.Dockerfile
           tags: matthewacon/test-repoitory-dind-arch:${{ github.run_number }}
           cache-from: type=local,src=dind-arch.tar
           outputs: type=registry,type=registry,ref=matthewacon/test-repoitory-dind-arch:${{ github.run_number }}
