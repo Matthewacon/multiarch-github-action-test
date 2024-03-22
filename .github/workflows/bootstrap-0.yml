@@ -1,8 +1,9 @@
 name: build-bootstrap-image
-on:
-  push:
-    paths:
-      - '.github/actions/dind-multiarch/**'
+#on:
+#  push:
+#    paths:
+#      - '.github/actions/dind-multiarch/**'
+on: ["push"]
 jobs:
   build-bootstrap-image:
     steps:
