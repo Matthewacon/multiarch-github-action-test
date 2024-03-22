@@ -5,3 +5,4 @@ description: |
 runs:
   using: 'docker'
   image: 'dind-arch.Dockerfile'
+  post: '/usr/bin/busybox sh echo Goodbye world\!'
