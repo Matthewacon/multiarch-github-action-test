@@ -1,4 +1,4 @@
-name: build-bootstrap-image
+name: run-bootstrap-image
 on:
   workflow_run:
     workflows: ["build-bootstrap-image"]
