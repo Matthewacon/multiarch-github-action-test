@@ -3,6 +3,9 @@ on: ["push"]
 jobs:
   test-action:
     runs-on: ubuntu-latest
+    services:
+      test-service:
+        image: dind-multiarch:latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
