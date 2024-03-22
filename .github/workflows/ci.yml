@@ -1,40 +1,54 @@
 name: CI
 on: ["push"]
-#on:
-#  workflow_run: ["CI"]
-#  types:
-#    - in_progress
 jobs:
-  build-multiarch-docker-image:
+  build-and-run-multiarch-docker-image:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Build base arch image
-        run: |
-          cd $GITHUB_WORKSPACE
-          docker build . -f .github/actions/dind-multiarch/dind-arch.Dockerfile -t docker-multiarch:${{ github.run_number }}
-          docker save docker-multiarch:${{ github.run_number }} > docker-multiarch.tar
-      - uses: actions/upload-artifact@v4
-        with:
-          name: docker-multiarch-image
-          path: docker-multiarch.tar
-  run-example:
-    runs-on: ubuntu-latest
-    needs: build-multiarch-docker-image
+    #TODO:
+    # - checkout repo
+    # - build image
+    # - start image
     services:
-      dockerd:
-        image: docker-multiarch:${{ github.run_number }}
-        #env:
-        #  args: |
-        #    /usr/bin/busybox sh -c "\
-        #    wget TODO.tar \
-        #    && dockerd -D --init unix:///var/run/docker2/docker.sock --exec-root /var/run/docker2 --cri-containerd \
-        #    "
-        volumes:
-          - /var/run/docker2:/var/run/docker2
+      image: ./.github/actions/dind-multiarch/dind-arch.Dockerfile 
     steps:
-      - name: Do nothing
-        run: find /var/run/docker2 && sleep 100
+      - name: Try to contact DIND daemon
+        run: |
+          find /var/run
+
+##on:
+##  workflow_run: ["CI"]
+##  types:
+##    - in_progress
+#jobs:
+#  build-multiarch-docker-image:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Build base arch image
+#        run: |
+#          cd $GITHUB_WORKSPACE
+#          docker build . -f .github/actions/dind-multiarch/dind-arch.Dockerfile -t docker-multiarch:${{ github.run_number }}
+#          docker save docker-multiarch:${{ github.run_number }} > docker-multiarch.tar
+#      - uses: actions/upload-artifact@v4
+#        with:
+#          name: docker-multiarch-image
+#          path: docker-multiarch.tar
+#  run-example:
+#    runs-on: ubuntu-latest
+#    needs: build-multiarch-docker-image
+#    services:
+#      dockerd:
+#        image: docker-multiarch:${{ github.run_number }}
+#        #env:
+#        #  args: |
+#        #    /usr/bin/busybox sh -c "\
+#        #    wget TODO.tar \
+#        #    && dockerd -D --init unix:///var/run/docker2/docker.sock --exec-root /var/run/docker2 --cri-containerd \
+#        #    "
+#        volumes:
+#          - /var/run/docker2:/var/run/docker2
+#    steps:
+#      - name: Do nothing
+#        run: find /var/run/docker2 && sleep 100
 
 
   #build_and_push_to_local_registry:
