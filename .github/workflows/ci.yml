@@ -11,16 +11,23 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Build and push
-        uses: docker/build-push-action@v3
+      - name: Build and save
+        uses: docker/build-push-action@v5
         with:
-          push: true
           file: ./.github/actions/dind-multiarch/dind-arch.Dockerfile
           tags: matthewacon/test-repoitory-dind-arch:${{ github.run_number }}
           outputs: type=docker,dest=dind-arch.tar
-          cache-from: type=registry,ref=matthewacon/test-repoitory-dind-arch:${{ github.run_number }}
-          cache-to: type=registry,ref=matthewacon/test-repoitory-dind-arch:${{ github.run_number }}
-      - uses: actions/upload-artifact@v4
+          #cache-from: type=registry,ref=matthewacon/test-repoitory-dind-arch:${{ github.run_number }}
+          #cache-to: type=registry,ref=matthewacon/test-repoitory-dind-arch:${{ github.run_number }}
+      - name: Push to dockerhub
+        uses: docker/build-and-push-action@v5
+        with:
+          push: true
+          tags: matthewacon/test-repoitory-dind-arch:${{ github.run_number }}
+          cache-from: type=local,src=dind-arch.tar
+          outputs: type=registry,type=registry,ref=matthewacon/test-repoitory-dind-arch:${{ github.run_number }}
+      - name: Upload action artifact
+        uses: actions/upload-artifact@v4
         with:
           name: dind-arch
           path: dind-arch.tar
