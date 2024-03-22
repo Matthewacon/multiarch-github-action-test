@@ -16,7 +16,7 @@ jobs:
         with:
           push: true
           file: ./.github/actions/dind-multiarch/dind-arch.Dockerfile
-          tags: matthewacon/test-repoitory:dind-arch-${{ github.run_number }}
+          tags: matthewacon/test-repository:dind-arch-${{ github.run_number }}
       #- name: Build and save
       #  uses: docker/build-push-action@v5
       #  with:
