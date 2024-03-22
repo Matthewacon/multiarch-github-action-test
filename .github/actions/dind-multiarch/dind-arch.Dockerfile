@@ -43,7 +43,7 @@ COPY --from=builder /image /
 
 #build image for github
 FROM scratch as github
-COPY --from=base /image /
+COPY --from=base / /
 
 #install jq
 RUN /usr/bin/busybox sh -c '\
