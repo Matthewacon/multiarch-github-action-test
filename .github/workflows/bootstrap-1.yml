@@ -20,7 +20,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Start action and do nothing
-        uses: ./.github/actions/dind-multiarch
+        #uses: ./.github/actions/dind-multiarch
+        run: |
+          for ((i=0; i < 100; i++)); do 
+            sleep 1
+          done
 
   #build-and-push-bootstrap-image:
   #  runs-on: ubuntu-latest
