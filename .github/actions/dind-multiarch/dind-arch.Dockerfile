@@ -30,7 +30,7 @@ FROM scratch
 
 COPY --from=builder /image /
 
-ENTRYPOINT ["/usr/bin/busybox", "sh", "-c", "env && ls / && docker image ls"]
+ENTRYPOINT ["/usr/bin/busybox", "sh", "-c", "env && ls / && docker image ls && docker container ps -a"]
 
 #ENV args="echo Set the command string in the 'args' environment variable"
 #ENTRYPOINT ["/usr/bin/busybox", "sh", "-c", "$args"]
