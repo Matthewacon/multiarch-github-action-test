@@ -34,14 +34,21 @@ RUN /usr/bin/bash -c '\
   && cp -R /etc/pacman.d/ /image/etc/ \
 '
 
-#copy bootstrap image from builder stage into github image
-FROM scratch as github
+#clear pacman cache and db
+RUN /usr/bin/bash -c 'rm -r /var/cache/pacman/pkg/* /var/lib/pacman/sync/*'
+
+#copy bootstrap image into empty layer
+FROM scratch as base
 COPY --from=builder /image /
+
+#build image for github
+FROM scratch as github
+COPY --from=base /image /
 
 #install jq
 RUN /usr/bin/busybox sh -c '\
   pacman -Sy --noconfirm jq \
-  && rm -r /var/lib/pacman/sync \
+  && rm -r /var/cache/pacman/pkg/* /var/lib/pacman/sync/* \
 '
 
 #copy entrypoint script into github image

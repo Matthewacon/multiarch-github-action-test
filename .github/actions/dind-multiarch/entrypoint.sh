@@ -11,4 +11,3 @@ docker tag $image_id dind-multiarch:latest
 docker image ls
 docker container ps -a
 env
-find /
