@@ -5,7 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     services:
       test-service:
-        image: dind-multiarch:latest
+        run: |
+          for ((i=0; i < 100; i++)); do
+            docker image ls
+            sleep 1
+          done
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
