@@ -1,17 +1,37 @@
 name: CI
 on: ["push"]
 jobs:
-  build-and-run-multiarch-docker-image:
+  build-image:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: step 1 
+      - name: Set up docker buildx context
+        uses: docker/setup-buildx-action@v3
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          file: ./.github/actions/dind-multiarch/dind-arch.Dockerfile
+          tags: dind-arch:${{ github.run_number }}
+          outputs: type=docker,dest=dind-arch.tar
+          cache-from: type=registry,ref=dind-arch:${{ github.run_number }}
+          cache-to: type=registry,ref=dind-arch:${{ github.run_number }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dind-arch
+          path: dind-arch.tar
+  build-and-run-multiarch-docker-image:
+    runs-on: ubuntu-latest
+    needs: ["build-image"]
     #TODO:
     # - checkout repo
     # - build image
     # - start image
     services:
-      image: ./.github/actions/dind-multiarch/dind-arch.Dockerfile 
+      image: ./.github/actions/dind-multiarch/dind-arch.Dockerfile
     steps:
       - name: Try to contact DIND daemon
         run: |
