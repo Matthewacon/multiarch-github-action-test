@@ -39,7 +39,7 @@ jobs:
       - name: Upload image
         uses: actions/upload-artifact@v4
         with:
-          name: docker-multiarch.tar.gz
+          name: dind-multiarch.tar.gz
           compression-level: 9
-          path: docker-multiarch.tar
+          path: dind-multiarch.tar
 
