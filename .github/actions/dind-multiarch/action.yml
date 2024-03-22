@@ -1,5 +1,7 @@
 name: dind-multiarch
-description: A small image with busybox and qemu-user-static
+description: |
+  Bootstraps a secondary docker daemon based on a slim archlinux image with
+  qemu-user-static, docker and busybox
 runs:
   using: 'docker'
   image: 'dind-arch.Dockerfile'
