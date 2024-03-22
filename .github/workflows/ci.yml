@@ -14,6 +14,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
+          push: true
           file: ./.github/actions/dind-multiarch/dind-arch.Dockerfile
           tags: matthewacon/test-repoitory-dind-arch:${{ github.run_number }}
           outputs: type=docker,dest=dind-arch.tar
