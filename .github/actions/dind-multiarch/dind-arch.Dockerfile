@@ -45,7 +45,7 @@ RUN /usr/bin/busybox sh -c '\
 '
 
 #copy entrypoint script into github image
-COPY ./.github/actions/dind-multiarch/entrypoint.sh /usr/bin/
+COPY ./entrypoint.sh /usr/bin/
 
 ENTRYPOINT ["/usr/bin/busybox", "sh", "/usr/bin/entrypoint.sh"]
 
