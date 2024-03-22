@@ -6,6 +6,7 @@ name: build-bootstrap-image
 on: ["push"]
 jobs:
   build-bootstrap-image:
+    runs-on: ubuntu-latest
     steps:
       - name: Set up docker buildx context
         uses: docker/setup-buildx-action@v3
