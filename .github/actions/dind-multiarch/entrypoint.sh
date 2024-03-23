@@ -13,10 +13,11 @@ env | base64 > out-before.txt
 #spin wheels if requested
 #NOTE: action input `should_spin_wheels` is mapped to `$1`
 if [[ ! -z "$1" ]]; then
- for i in $(seq 100); do
-  printf 'Do nothing %s\n' "$i"
-  sleep 1
- done
+ #for i in $(seq 100); do
+ # printf 'Do nothing %s\n' "$i"
+ # sleep 1
+ #done
+ sleep 1
 fi
 
 #print images and containers before

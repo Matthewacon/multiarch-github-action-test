@@ -1,11 +1,9 @@
 name: run-bootstrap-image
-on: ["push"]
-#TODO: bring back once the bootstrap workflow is re-enabled 
-#on:
-#  workflow_run:
-#    workflows: ["build-bootstrap-image"]
-#    types:
-#      - completed
+on:
+  workflow_run:
+    workflows: ["build-bootstrap-image"]
+    types:
+      - completed
 jobs:
   pull-image-and-do-nothing:
     runs-on: ubuntu-latest
@@ -24,9 +22,10 @@ jobs:
       - name: Start action and do nothing
         #uses: ./.github/actions/dind-multiarch
         run: |
-          for ((i=0; i < 100; i++)); do
-            sleep 1
-          done
+          sleep 1
+          #for ((i=0; i < 100; i++)); do
+          #  sleep 1
+          #done
   build-action-and-do-nothing:
     runs-on: ubuntu-latest
     steps:
