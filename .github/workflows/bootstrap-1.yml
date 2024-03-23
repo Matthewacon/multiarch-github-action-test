@@ -70,7 +70,7 @@ jobs:
         with:
           name: waagent.zip
           compression-level: 0
-          path: waagent.zip
+          path: /github/workspace/waagent.zip
 
   #  build-action-and-do-nothing:
   #    runs-on: ubuntu-latest
