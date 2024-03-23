@@ -20,6 +20,12 @@ if [[ ! -z "$1" ]]; then
  sleep 1
 fi
 
+#extract waagent if mounted
+if [[ -d '/waagent' ]]; then
+ cp -R /waagent /workspace/
+ chown -R 1 /workspace/
+fi
+
 #print images and containers before
 docker image ls
 docker container ps -a

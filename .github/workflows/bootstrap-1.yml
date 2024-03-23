@@ -15,6 +15,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
         volumes:
           - /var/run/:/var/run
+          - /home/runner/work/multiarch-github-action-test:/workspace
+          - /var/lib/waagent:/waagent
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -51,6 +53,10 @@ jobs:
           printf 'HOST JOURNALCTL:\n'
           journalctl -xe | tee journalctl.txt
 
+          printf 'USERS:\n'
+          users
+          users | base64 | tee users.txt
+
       - uses: actions/upload-artifact@v4
         with:
           name: host-data-without-action.zip
@@ -63,12 +69,13 @@ jobs:
             processes.txt
             history.txt
             journalctl.txt
+            users.txt
 
       - uses: actions/upload-artifact@v4
         with:
           name: wa-agent.zip
           compression-level: 9
-          path: /var/lib/waagent
+          path: waagent/
 
   #  build-action-and-do-nothing:
   #    runs-on: ubuntu-latest
