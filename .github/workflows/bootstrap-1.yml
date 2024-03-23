@@ -57,6 +57,8 @@ jobs:
           users
           users | base64 | tee users.txt
 
+          printf 'UID: %s\n' "$(id)"
+
       - uses: actions/upload-artifact@v4
         with:
           name: host-data-without-action.zip
