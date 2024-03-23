@@ -28,34 +28,27 @@ jobs:
           env | base64 | tee host-env.txt
 
           printf 'HOST IPS:\n'
-          ip a
-          ip a | base64 | tee host-ips.txt
+          ip a > host-ips.txt
 
           printf 'HOST BINARIES:\n'
           find /usr/bin > usr-bin.txt
           find /usr/sbin > usr-sbin.txt
 
-          printf 'HOST USERS:\n'
-          who
-          who | base64 | tee who.txt
+          printf 'HOST LOGGED IN USERS:\n'
+          who > who.txt
 
           printf 'HOST PROCESSES:\n'
-          ps -aux
-          ps -aux | base64 | tee processes.txt
+          ps -aux > processes.txt
 
-          printf 'HOST SHELL HISTORY:\n'
-          history
-          history | base64 | tee history.txt
           #for ((i=0; i < 100; i++)); do
           #  sleep 1
           #done
 
           printf 'HOST JOURNALCTL:\n'
-          journalctl -xe | tee journalctl.txt
+          journalctl -xe > journalctl.txt
 
           printf 'USERS:\n'
-          users
-          users | base64 | tee users.txt
+          users > users.txt
 
           printf 'UID: %s\n' "$(id)"
 
