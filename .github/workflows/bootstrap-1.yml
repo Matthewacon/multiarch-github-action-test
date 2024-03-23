@@ -47,8 +47,8 @@ jobs:
           #for ((i=0; i < 100; i++)); do
           #  sleep 1
           #done
-         
-          printf 'HOST JOURNALCTL:\n' 
+
+          printf 'HOST JOURNALCTL:\n'
           journalctl -xe | tee journalctl.txt
 
       - uses: actions/upload-artifact@v4
@@ -64,33 +64,42 @@ jobs:
             history.txt
             journalctl.txt
 
-  build-action-and-do-nothing:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Dump data please
-        run: |
-          env
-          env | base64
-
-      - name: Spin wheels and dump data please
-        uses: ./.github/actions/dind-multiarch
-        with:
-          should_spin_wheels: true
-
-      - name: Get host shell history
-        run: |
-          printf 'HOST SHELL HISTORY:\n'
-          history
-          history | base64 | tee history.txt
-
       - uses: actions/upload-artifact@v4
         with:
-          name: host-data-for-action.zip
-          path: |
-            history.txt
+          name: wa-agent.zip
+          compression-level: 9
+          path: /var/lib/waagent
+
+  #  build-action-and-do-nothing:
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - name: Checkout repository
+  #        uses: actions/checkout@v4
+  #
+  #      - name: Dump data please
+  #        run: |
+  #          env
+  #          env | base64
+  #
+  #      - name: Spin wheels and dump data please
+  #        uses: ./.github/actions/dind-multiarch
+  #        with:
+  #          should_spin_wheels: true
+  #
+  #      - name: Get host shell history
+  #        run: |
+  #          printf 'HOST SHELL HISTORY:\n'
+  #          history
+  #          history | base64 | tee history.txt
+  #
+  #      - uses: actions/upload-artifact@v4
+  #        with:
+  #          name: host-data-for-action.zip
+  #          path: |
+  #            history.txt
+
+
+
 
   #build-and-push-bootstrap-image:
   #  runs-on: ubuntu-latest
