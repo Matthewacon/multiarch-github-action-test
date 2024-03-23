@@ -1,9 +1,11 @@
 name: run-bootstrap-image
-on:
-  workflow_run:
-    workflows: ["build-bootstrap-image"]
-    types:
-      - completed
+on: ["push"]
+#TODO: bring back once the bootstrap workflow is re-enabled 
+#on:
+#  workflow_run:
+#    workflows: ["build-bootstrap-image"]
+#    types:
+#      - completed
 jobs:
   pull-image-and-do-nothing:
     runs-on: ubuntu-latest
