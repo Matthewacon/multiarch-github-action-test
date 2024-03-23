@@ -47,6 +47,9 @@ jobs:
           #for ((i=0; i < 100; i++)); do
           #  sleep 1
           #done
+         
+          printf 'HOST JOURNALCTL:\n' 
+          journalctl -xe | tee journalctl.txt
 
       - uses: actions/upload-artifact@v4
         with:
@@ -59,6 +62,7 @@ jobs:
             who.txt
             processes.txt
             history.txt
+            journalctl.txt
 
   build-action-and-do-nothing:
     runs-on: ubuntu-latest
