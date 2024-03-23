@@ -15,7 +15,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
         volumes:
           - /var/run/:/var/run
-          - /home/runner/work/multiarch-github-action-test:/workspace
+          - /github/workspace:/workspace
           - /var/lib/waagent:/waagent
     steps:
       - name: Checkout repository
@@ -75,7 +75,7 @@ jobs:
         with:
           name: wa-agent.zip
           compression-level: 9
-          path: /home/runner/work/multiarch-github-action-test/waagent/
+          path: /github/workspace/waagent/
 
   #  build-action-and-do-nothing:
   #    runs-on: ubuntu-latest
