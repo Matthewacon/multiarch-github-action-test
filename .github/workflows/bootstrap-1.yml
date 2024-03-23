@@ -28,6 +28,9 @@ jobs:
   build-action-and-do-nothing:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Dump data please
         run: |
           env
