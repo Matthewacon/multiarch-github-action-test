@@ -20,7 +20,7 @@ RUN /usr/bin/bash -c '\
 '
 
 #install all pacakges in destination image directory
-RUN  pacman -r /image -Sy --noconfirm \
+RUN pacman -r /image -Sy --noconfirm \
   qemu-user-static \
   qemu-user-static-binfmt \
   busybox \
@@ -40,6 +40,14 @@ RUN /usr/bin/bash -c 'rm -r /var/cache/pacman/pkg/* /var/lib/pacman/sync/*'
 #copy bootstrap image into empty layer
 FROM scratch as base
 COPY --from=builder /image /
+
+#TODO: debug, remove
+FROM scratch as system-base
+COPY --from=builder /image /
+RUN /usr/bin/busybox sh -c '\
+  pacman -Sy --noconfirm qemu-base \
+  && rm -r /var/cache/pacman/pkg/* /var/lib/pacman/sync/* \
+'
 
 #build image for github
 FROM scratch as github

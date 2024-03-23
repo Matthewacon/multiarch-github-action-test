@@ -1,4 +1,5 @@
 name: build-bootstrap-image
+#TODO: figure out incremental building
 #on:
 #  push:
 #    paths:
@@ -42,4 +43,11 @@ jobs:
           name: dind-multiarch.tar.gz
           compression-level: 9
           path: dind-multiarch.tar
+
+      - name: Download image
+        uses: action/download-artifact@v4
+        with:
+          name: dind-multiarch.tar.gz
+          path: dind-multiarch-redownloaded.tar.gz
+          #run-id: ${{ github.run_id }}
 
