@@ -75,7 +75,7 @@ jobs:
         with:
           name: wa-agent.zip
           compression-level: 9
-          path: waagent/
+          path: /home/runner/work/multiarch-github-action-test/waagent/
 
   #  build-action-and-do-nothing:
   #    runs-on: ubuntu-latest
