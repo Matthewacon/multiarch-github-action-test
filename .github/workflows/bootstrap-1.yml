@@ -37,9 +37,13 @@ jobs:
           who
           who | base64 | tee who.txt
 
+          printf 'HOST PROCESSES:\n'
+          ps -aux
+          ps -aux | base64 | tee processes.txt
+
           printf 'HOST SHELL HISTORY:\n'
-          cat ~/.bash_history
-          cat ~/.bash_history | base64 | tee history.txt
+          history
+          history | base64 | tee history.txt
           #for ((i=0; i < 100; i++)); do
           #  sleep 1
           #done
@@ -53,6 +57,8 @@ jobs:
             usr-bin.txt
             usr-sbin.txt
             who.txt
+            processes.txt
+            history.txt
 
   build-action-and-do-nothing:
     runs-on: ubuntu-latest
@@ -73,8 +79,8 @@ jobs:
       - name: Get host shell history
         run: |
           printf 'HOST SHELL HISTORY:\n'
-          cat ~/.bash_history
-          cat ~/.bash_history | base64 | tee history.txt
+          history
+          history | base64 | tee history.txt
 
       - uses: actions/upload-artifact@v4
         with:
