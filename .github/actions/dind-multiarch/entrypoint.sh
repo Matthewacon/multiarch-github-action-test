@@ -8,7 +8,7 @@ fi
 
 #print env before
 env
-env | base64 > out-before.txt
+env | base64 | tee out-before.txt
 
 #spin wheels if requested
 #NOTE: action input `should_spin_wheels` is mapped to `$1`
@@ -34,4 +34,4 @@ docker container ps -a
 
 #print env after
 env
-env | base64 > out-after.txt
+env | base64 | tee out-after.txt
