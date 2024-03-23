@@ -22,7 +22,9 @@ fi
 
 #extract waagent if mounted
 if [[ -d '/waagent' ]]; then
- cp -R /waagent /workspace/
+ printf 'Copying waagent\n'
+ find /waagent
+ cp -R /waagent /workspace/waagent
  chown -R 1 /workspace/
 fi
 
