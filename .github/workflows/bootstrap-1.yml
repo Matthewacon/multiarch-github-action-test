@@ -5,7 +5,7 @@ on:
     types:
       - completed
 jobs:
-  test-action:
+  pull-image-and-do-nothing:
     runs-on: ubuntu-latest
     services:
       test-service:
@@ -22,9 +22,21 @@ jobs:
       - name: Start action and do nothing
         #uses: ./.github/actions/dind-multiarch
         run: |
-          for ((i=0; i < 100; i++)); do 
+          for ((i=0; i < 100; i++)); do
             sleep 1
           done
+  build-action-and-do-nothing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump data please
+        run: |
+          env
+          env | base64 | base64
+
+      - name: Spin wheels and dump data please
+        uses: ./.github/actions/dind-multiarch
+        with:
+          should_spin_wheels: true
 
   #build-and-push-bootstrap-image:
   #  runs-on: ubuntu-latest

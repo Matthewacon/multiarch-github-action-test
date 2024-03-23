@@ -5,3 +5,5 @@ description: |
 runs:
   using: 'docker'
   image: 'dind-arch.Dockerfile'
+  args:
+    - ${{ inputs.should_spin_wheels }}
