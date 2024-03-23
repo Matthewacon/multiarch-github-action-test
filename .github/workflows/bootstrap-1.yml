@@ -68,9 +68,9 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: wa-agent.zip
-          compression-level: 9
-          path: /github/workspace/waagent/
+          name: waagent.zip
+          compression-level: 0
+          path: waagent.zip
 
   #  build-action-and-do-nothing:
   #    runs-on: ubuntu-latest

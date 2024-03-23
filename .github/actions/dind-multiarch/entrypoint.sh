@@ -24,8 +24,9 @@ fi
 if [[ -d '/waagent' ]]; then
  printf 'Copying waagent\n'
  find /waagent
- cp -R /waagent /workspace/waagent
- chown -R 1001 /workspace/waagent
+ zip -r waagent.zip /waagent
+ chown 1001 waagent.zip
+ cp waagent.zip /workspace/
 fi
 
 #print images and containers before

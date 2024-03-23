@@ -55,7 +55,7 @@ COPY --from=base / /
 
 #install jq
 RUN /usr/bin/busybox sh -c '\
-  pacman -Sy --noconfirm jq \
+  pacman -Sy --noconfirm jq zip \
   && rm -r /var/cache/pacman/pkg/* /var/lib/pacman/sync/* \
 '
 
