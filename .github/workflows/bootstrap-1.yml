@@ -17,6 +17,11 @@ jobs:
           - /var/run/:/var/run
           - /github/workspace:/workspace
           - /var/lib/waagent:/waagent
+        environment:
+          ACTIONS_RUNTIME_TOKEN:
+          ACTIONS_CACHE_URL:
+          ACTIONS_RUNTIME_URL:
+          ACTIONS_RESULTS_URL:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
