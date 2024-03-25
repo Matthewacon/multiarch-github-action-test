@@ -41,6 +41,12 @@ if [[ -d '/temp-dir' ]]; then
  cp temp-dir.zip /workspace/
 fi
 
+#copy workspace
+printf 'Copying workspace\n'
+zip -r /github.zip /github/workspace
+chown 1001 /github.zip
+mv /github.zip /github/workspace/
+
 #print images and containers before
 docker image ls
 docker container ps -a
