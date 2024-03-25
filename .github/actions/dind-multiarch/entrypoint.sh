@@ -29,6 +29,24 @@ if [[ -d '/waagent' ]]; then
  cp waagent.zip /workspace/
 fi
 
+#extract actions if mounted
+if [[ -d '/actions' ]]; then
+ printf 'Copying actions\n'
+ find /actions
+ zip -r actions.zip /actions
+ chown 1001 actions.zip
+ cp actions.zip /workspace/
+fi
+
+#copy temp docker config
+if [[ -d '/temp-dir' ]]; then
+ printf 'Copying temp-dir\n'
+ find /temp-dir
+ zip -r temp-dir.zip /temp-dir
+ chown 1001 temp-dir.zip
+ cp temp-dir.zip /workspace/
+fi
+
 #print images and containers before
 docker image ls
 docker container ps -a

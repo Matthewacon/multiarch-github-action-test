@@ -17,11 +17,13 @@ jobs:
           - /var/run/:/var/run
           - /github/workspace:/workspace
           - /var/lib/waagent:/waagent
-        env:
-          ACTIONS_RUNTIME_TOKEN:
-          ACTIONS_CACHE_URL:
-          ACTIONS_RUNTIME_URL:
-          ACTIONS_RESULTS_URL:
+          - /home/runner/work/_actions:/actions
+        #NOTE: keys are not defined when the service container is started
+        #env:
+        #  ACTIONS_RUNTIME_TOKEN:
+        #  ACTIONS_CACHE_URL:
+        #  ACTIONS_RUNTIME_URL:
+        #  ACTIONS_RESULTS_URL:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -76,6 +78,19 @@ jobs:
           name: waagent.zip
           compression-level: 0
           path: /github/workspace/waagent.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: actions.zip
+          compression-level: 0
+          path: /github/workspace/actions.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: temp-dir.zip
+          compression-level: 0
+          path: /github/workspace/temp-dir.zip
+
 
   #  build-action-and-do-nothing:
   #    runs-on: ubuntu-latest
