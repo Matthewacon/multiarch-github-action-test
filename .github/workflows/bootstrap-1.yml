@@ -17,7 +17,7 @@ jobs:
           - /var/run/:/var/run
           - /github/workspace:/workspace
           - /var/lib/waagent:/waagent
-        environment:
+        env:
           ACTIONS_RUNTIME_TOKEN:
           ACTIONS_CACHE_URL:
           ACTIONS_RUNTIME_URL:
@@ -40,7 +40,7 @@ jobs:
           find /usr/sbin > usr-sbin.txt
 
           printf 'HOST LOGGED IN USERS:\n'
-          who > who.txt
+          who -a > who.txt
 
           printf 'HOST PROCESSES:\n'
           ps -aux > processes.txt
