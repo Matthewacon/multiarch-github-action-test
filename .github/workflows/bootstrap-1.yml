@@ -109,10 +109,6 @@ jobs:
 
       - name: Dump action info
         uses: ./.github/actions/dind-multiarch
-        run: |
-          printf 'Env outside action:\n'
-          env | base64
-
 
   #  build-action-and-do-nothing:
   #    runs-on: ubuntu-latest

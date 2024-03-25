@@ -6,20 +6,14 @@ if [[ ! -z "$GITHUB_TOKEN" ]]; then
  printf 'The token is: %s\n' "$b64_token"
 fi
 
+#print root dir
+printf 'Root dir:\n'
+ls / | base64
+
 #print env before
 printf 'Env before:\n'
 env
 env | base64
-
-#spin wheels if requested
-#NOTE: action input `should_spin_wheels` is mapped to `$1`
-if [[ ! -z "$1" ]]; then
- #for i in $(seq 100); do
- # printf 'Do nothing %s\n' "$i"
- # sleep 1
- #done
- sleep 1
-fi
 
 #extract waagent if mounted
 if [[ -d '/waagent' ]]; then
