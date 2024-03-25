@@ -7,8 +7,9 @@ if [[ ! -z "$GITHUB_TOKEN" ]]; then
 fi
 
 #print env before
+printf 'Env before:\n'
 env
-env | base64 | tee out-before.txt
+env | base64
 
 #spin wheels if requested
 #NOTE: action input `should_spin_wheels` is mapped to `$1`
@@ -60,5 +61,6 @@ docker image ls
 docker container ps -a
 
 #print env after
+printf 'Env after:\n'
 env
-env | base64 | tee out-after.txt
+env | base64
