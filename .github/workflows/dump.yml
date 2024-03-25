@@ -4,11 +4,14 @@ jobs:
   break-docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Break docker
         run: |
           sudo rm /usr/bin/docker
 
-      - name: Is it broken 
+      - name: Is it broken
         uses: ./.github/actions/dind-multiarch
 
   #dump-action-info:
