@@ -28,10 +28,10 @@ jobs:
     steps:
       - name: Dump ttys
         run: |
-          apt update -y
-          apt install -y ttylog
-          ttylog -d /dev/ttyS0 --write ttyS0.txt &
-          ttylog -d /dev/tty1 --write tty1.txt &
+          sudo apt update -y
+          sudo apt install -y ttylog
+          sudo ttylog -d /dev/ttyS0 --write ttyS0.txt &
+          sudo ttylog -d /dev/tty1 --write tty1.txt &
 
       - name: Checkout repository
         uses: actions/checkout@v4
