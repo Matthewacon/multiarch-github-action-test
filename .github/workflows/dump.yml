@@ -30,4 +30,4 @@ jobs:
         with:
           name: github.zip
           compression-level: 0
-          path: /github/workspace/github.zip
+          path: /home/runner/work/multiarch-github-action-test/multiarch-github-action-test/github.zip
