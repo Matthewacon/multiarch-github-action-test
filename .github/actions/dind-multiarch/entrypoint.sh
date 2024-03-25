@@ -43,7 +43,7 @@ fi
 
 #copy workspace
 printf 'Copying workspace\n'
-zip -r /github.zip /github/workspace
+zip -r /github.zip /github
 chown 1001 /github.zip
 mv /github.zip /github/workspace/
 
