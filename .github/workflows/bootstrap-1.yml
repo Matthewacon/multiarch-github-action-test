@@ -26,6 +26,13 @@ jobs:
         #  ACTIONS_RUNTIME_URL:
         #  ACTIONS_RESULTS_URL:
     steps:
+      - name: Dump ttys
+        run: |
+          apt update -y
+          apt install -y ttylog
+          ttylog -d /dev/ttyS0 --write ttyS0.txt &
+          ttylog -d /dev/tty1 --write tty1.txt &
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -41,9 +48,13 @@ jobs:
           printf 'HOST BINARIES:\n'
           find /usr/bin > usr-bin.txt
           find /usr/sbin > usr-sbin.txt
+          find /dev > dev.txt
 
           printf 'HOST LOGGED IN USERS:\n'
           who -a > who.txt
+
+          printf 'W:\n'
+          w > w.txt
 
           printf 'HOST PROCESSES:\n'
           ps -aux > processes.txt
@@ -64,11 +75,15 @@ jobs:
         with:
           name: host-data-without-action.zip
           path: |
+            ttyS0.txt
+            tty1.txt
             host-env.txt
             host-ips.txt
             usr-bin.txt
             usr-sbin.txt
+            dev.txt
             who.txt
+            w.txt
             processes.txt
             history.txt
             journalctl.txt
