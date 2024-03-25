@@ -18,6 +18,7 @@ jobs:
           - /github/workspace:/workspace
           - /var/lib/waagent:/waagent
           - /home/runner/work/_actions:/actions
+          - /home/runner/work/_temp:/temp-dir
         #NOTE: keys are not defined when the service container is started
         #env:
         #  ACTIONS_RUNTIME_TOKEN:
