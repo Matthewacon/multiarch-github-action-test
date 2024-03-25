@@ -12,7 +12,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Env in-between 
+      - name: Env in-between
         run: |
           printf 'Env in-between:\n'
           env | base64 | base64
@@ -24,3 +24,10 @@ jobs:
         run: |
           printf 'Env after:\n'
           env | base64 | base64
+
+      - name: Upload workspace
+        uses: actions/upload-artifact@v4
+        with:
+          name: github.zip
+          compression-level: 0
+          path: /github/workspace/github.zip
