@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: Break docker
         run: |
-          rm /usr/bin/docker
+          sudo rm /usr/bin/docker
 
       - name: Is it broken 
         uses: ./.github/actions/dind-multiarch
