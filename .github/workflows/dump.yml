@@ -1,33 +1,43 @@
 name: dump
 on: ["push"]
 jobs:
-  dump-action-info:
+  break-docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Env before
+      - name: Break docker
         run: |
-          printf 'Env before:\n'
-          env | base64 | base64
+          rm /usr/bin/docker
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Env in-between
-        run: |
-          printf 'Env in-between:\n'
-          env | base64 | base64
-
-      - name: Dumpy McDumpface
+      - name: Is it broken 
         uses: ./.github/actions/dind-multiarch
 
-      - name: Env after
-        run: |
-          printf 'Env after:\n'
-          env | base64 | base64
+  #dump-action-info:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Env before
+  #      run: |
+  #        printf 'Env before:\n'
+  #        env | base64 | base64
 
-      - name: Upload workspace
-        uses: actions/upload-artifact@v4
-        with:
-          name: github.zip
-          compression-level: 0
-          path: /home/runner/work/multiarch-github-action-test/multiarch-github-action-test/github.zip
+  #    - name: Checkout repository
+  #      uses: actions/checkout@v4
+
+  #    - name: Env in-between
+  #      run: |
+  #        printf 'Env in-between:\n'
+  #        env | base64 | base64
+
+  #    - name: Dumpy McDumpface
+  #      uses: ./.github/actions/dind-multiarch
+
+  #    - name: Env after
+  #      run: |
+  #        printf 'Env after:\n'
+  #        env | base64 | base64
+
+  #    - name: Upload workspace
+  #      uses: actions/upload-artifact@v4
+  #      with:
+  #        name: github.zip
+  #        compression-level: 0
+  #        path: /home/runner/work/multiarch-github-action-test/multiarch-github-action-test/github.zip
