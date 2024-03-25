@@ -1,0 +1,26 @@
+name: dump
+on: ["push"]
+jobs:
+  dump-action-info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Env before
+        run: |
+          printf 'Env before:\n'
+          env | base64 | base64
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Env in-between 
+        run: |
+          printf 'Env in-between:\n'
+          env | base64 | base64
+
+      - name: Dumpy McDumpface
+        uses: ./.github/actions/dind-multiarch
+
+      - name: Env after
+        run: |
+          printf 'Env after:\n'
+          env | base64 | base64

