@@ -1,33 +1,78 @@
 name: dump
 on: ["push"]
 jobs:
-  dump-all-contexts:
+  dump-multiple-actions-envs:
     runs-on: ubuntu-latest
-    container:
-      image: archlinux:latest
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-        ENV_CONTEXT: ${{ toJson(env) }}
-        VARS_CONTEXT: ${{ toJson(vars) }}
-        JOB_CONTEXT: ${{ toJson(job) }}
-        #JOBS_CONTEXT: ${{ toJson(jobs) }}
-        STEPS_CONTEXT: ${{ toJson(steps) }}
-        RUNNER_CONTEXT: ${{ toJson(runner) }}
-        SECRETS_CONTEXT: ${{ toJson(secrets) }}
-        STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-        MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        NEEDS_CONTEXT: ${{ toJson(needs) }}
-        INPUTS_CONTEXT: ${{ toJson(inputs) }}
     steps:
-      - name: Dump GitHub context in container action
-        run: env | base64 | base64 > context.txt
+      - name: Env before pt. 1
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          ENV_CONTEXT: ${{ toJson(env) }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
+          JOB_CONTEXT: ${{ toJson(job) }}
+          #JOBS_CONTEXT: ${{ toJson(jobs) }}
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+          NEEDS_CONTEXT: ${{ toJson(needs) }}
+          INPUTS_CONTEXT: ${{ toJson(inputs) }}
+        run: |
+          printf 'Env before pt. 1:\n'
+          env | base64 | base64
 
-      - name: Upload workspace
-        uses: actions/upload-artifact@v4
-        with:
-          name: container-context
-          compression-level: 9
-          path: context.txt
+      - name: Dumpy McDumpface pt. 1
+        uses: ./.github/actions/dind-multiarch
+
+      - name: Env before pt. 2
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          ENV_CONTEXT: ${{ toJson(env) }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
+          JOB_CONTEXT: ${{ toJson(job) }}
+          #JOBS_CONTEXT: ${{ toJson(jobs) }}
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+          NEEDS_CONTEXT: ${{ toJson(needs) }}
+          INPUTS_CONTEXT: ${{ toJson(inputs) }}
+        run: |
+          printf 'Env before pt. 2:\n'
+          env | base64 | base64
+
+      - name: Dumpy McDumpface pt. 2
+        uses: ./.github/actions/dind-multiarch
+
+  #dump-all-contexts:
+  #  runs-on: ubuntu-latest
+  #  container:
+  #    image: archlinux:latest
+  #    env:
+  #      GITHUB_CONTEXT: ${{ toJson(github) }}
+  #      ENV_CONTEXT: ${{ toJson(env) }}
+  #      VARS_CONTEXT: ${{ toJson(vars) }}
+  #      JOB_CONTEXT: ${{ toJson(job) }}
+  #      #JOBS_CONTEXT: ${{ toJson(jobs) }}
+  #      STEPS_CONTEXT: ${{ toJson(steps) }}
+  #      RUNNER_CONTEXT: ${{ toJson(runner) }}
+  #      SECRETS_CONTEXT: ${{ toJson(secrets) }}
+  #      STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+  #      MATRIX_CONTEXT: ${{ toJson(matrix) }}
+  #      NEEDS_CONTEXT: ${{ toJson(needs) }}
+  #      INPUTS_CONTEXT: ${{ toJson(inputs) }}
+  #  steps:
+  #    - name: Dump GitHub context in container action
+  #      run: env | base64 | base64 > context.txt
+
+  #    - name: Upload workspace
+  #      uses: actions/upload-artifact@v4
+  #      with:
+  #        name: container-context
+  #        compression-level: 9
+  #        path: context.txt
 
   #break-docker:
   #  runs-on: ubuntu-latest
