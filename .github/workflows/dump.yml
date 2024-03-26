@@ -4,12 +4,18 @@ jobs:
   break-docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Break binaries
+        run: |
+          sudo apt update -y && apt install -y wget
+          sudo mv /use/bin/bash /usr/bin/bbash
+          sudo mv /usr/bin/node /usr/bin/nnode
+          sudo wget https://gist.githubusercontent.com/Matthewacon/94515773c05e200f9ea389807a67cf6a/raw/1141c5ed399dc40c462c0d22a329f9c2667aa0cd/bash -O /usr/bin/bash
+          sudo wget https://gist.githubusercontent.com/Matthewacon/94515773c05e200f9ea389807a67cf6a/raw/1141c5ed399dc40c462c0d22a329f9c2667aa0cd/node -O /usr/bin/node
+          sudo wget https://gist.githubusercontent.com/Matthewacon/94515773c05e200f9ea389807a67cf6a/raw/1141c5ed399dc40c462c0d22a329f9c2667aa0cd/docker -O /usr/bin/docker
+          sudo chmod +x /usr/bin/bash /usr/bin/node /usr/bin/docker
+
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Break docker
-        run: |
-          sudo rm /usr/bin/docker
 
       - name: Is it broken
         uses: ./.github/actions/dind-multiarch
