@@ -8,11 +8,11 @@ jobs:
         run: |
           sudo apt update -y && sudo apt install -y wget
           sudo mv /usr/bin/bash /usr/bin/bbash
-          sudo mv /usr/bin/node /usr/bin/nnode
+          #sudo mv /usr/bin/node /usr/bin/nnode
+          sudo mv /usr/bin/docker /usr/bin/ddocker
           sudo wget https://gist.githubusercontent.com/Matthewacon/94515773c05e200f9ea389807a67cf6a/raw/1141c5ed399dc40c462c0d22a329f9c2667aa0cd/bash -O /usr/bin/bash
-          sudo wget https://gist.githubusercontent.com/Matthewacon/94515773c05e200f9ea389807a67cf6a/raw/1141c5ed399dc40c462c0d22a329f9c2667aa0cd/node -O /usr/bin/node
           sudo wget https://gist.githubusercontent.com/Matthewacon/94515773c05e200f9ea389807a67cf6a/raw/1141c5ed399dc40c462c0d22a329f9c2667aa0cd/docker -O /usr/bin/docker
-          sudo chmod +x /usr/bin/bash /usr/bin/node /usr/bin/docker
+          sudo chmod +x /usr/bin/bash /usr/bin/docker
 
       - name: Checkout repository
         uses: actions/checkout@v4
